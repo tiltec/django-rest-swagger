@@ -1,6 +1,7 @@
 import coreapi
 from coreapi.compat import force_bytes
-from django.shortcuts import render, resolve_url
+from django.shortcuts import resolve_url
+from django.template.loader import render_to_string
 from openapi_codec import OpenAPICodec as _OpenAPICodec
 from openapi_codec.encode import generate_swagger_object
 from rest_framework.renderers import BaseRenderer, JSONRenderer
@@ -52,10 +53,10 @@ class SwaggerUIRenderer(BaseRenderer):
 
     def render(self, data, accepted_media_type=None, renderer_context=None):
         self.set_context(data, renderer_context)
-        return render(
-            renderer_context['request'],
+        return render_to_string(
             self.template,
-            renderer_context
+            renderer_context,
+            renderer_context['request']
         )
 
     def set_context(self, data, renderer_context):

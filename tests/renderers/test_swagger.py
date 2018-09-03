@@ -37,7 +37,7 @@ class TestSwaggerUIRenderer(TestCase):
     def test_charset(self):
         self.assertEqual('utf-8', self.sut.charset)
 
-    @patch('rest_framework_swagger.renderers.render')
+    @patch('rest_framework_swagger.renderers.render_to_string')
     def test_render(self, render_mock):
         data = MagicMock()
         with patch.object(self.sut, 'set_context') as context_mock:
@@ -49,9 +49,9 @@ class TestSwaggerUIRenderer(TestCase):
 
         context_mock.assert_called_once_with(data, self.renderer_context)
         render_mock.assert_called_once_with(
-            self.renderer_context['request'],
             self.sut.template,
-            self.renderer_context
+            self.renderer_context,
+            self.renderer_context['request']
         )
 
     def test_set_context_use_session_auth(self):
