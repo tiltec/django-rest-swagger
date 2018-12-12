@@ -43,7 +43,7 @@ class TestGetSwaggerView(TestCase):
         self.assertTrue(self.view_class._ignore_model_permissions)
 
     def test_exclude_from_schema(self):
-        self.assertTrue(self.view_class.exclude_from_schema)
+        self.assertIsNone(self.view_class.schema)
 
     def test_renderer_classes(self):
         self.assertListEqual(
